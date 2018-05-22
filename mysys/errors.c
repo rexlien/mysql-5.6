@@ -113,10 +113,10 @@ void wait_for_free_space(const char *filename, int errors)
   }
   DBUG_EXECUTE_IF("simulate_no_free_space_error",
                  {
-                   (void) sleep(1);
+                   (void) MY_Sleep(1);
                    return;
                  });
-  (void) sleep(MY_WAIT_FOR_USER_TO_FIX_PANIC);
+  (void) MY_Sleep(MY_WAIT_FOR_USER_TO_FIX_PANIC);
 }
 
 const char *get_global_errmsg(int nr)

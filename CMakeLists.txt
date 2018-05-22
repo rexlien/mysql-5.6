@@ -485,6 +485,9 @@ MYSQL_CHECK_READLINE()
 # Add libevent
 MYSQL_CHECK_LIBEVENT()
 
+include_directories(${ZSTD_INCLUDE_DIR})
+include_directories(${FOLLY_INCLUDE_DIR})
+
 #
 # Setup maintainer mode options by the end. Platform checks are
 # not run with the warning options as to not perturb fragile checks

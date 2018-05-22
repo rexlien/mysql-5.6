@@ -28,7 +28,7 @@ size_t vio_read_shared_memory(Vio *vio, uchar *buf, size_t size)
 
   remain_local= size;
   current_position= buf;
-  timeout= vio->read_timeout >= 0 ? vio->read_timeout : INFINITE;
+  timeout= vio->read_timeout.value_ms_ >= 0 ? vio->read_timeout.value_ms_ : INFINITE;
 
   events[0]= vio->event_server_wrote;
   events[1]= vio->event_conn_closed;
@@ -104,10 +104,10 @@ size_t vio_write_shared_memory(Vio *vio, const uchar *buf, size_t size)
   HANDLE events[2];
   DWORD timeout;
   DBUG_ENTER("vio_write_shared_memory");
-
+  
   remain= size;
   current_position= buf;
-  timeout= vio->write_timeout >= 0 ? vio->write_timeout : INFINITE;
+  timeout= vio->write_timeout.value_ms_ >= 0 ? vio->write_timeout.value_ms_ : INFINITE;
 
   events[0]= vio->event_server_read;
   events[1]= vio->event_conn_closed;

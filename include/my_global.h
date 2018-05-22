@@ -118,7 +118,7 @@
 #include <io.h>       /* access(), chmod() */
 #include <process.h>  /* getpid() */
 
-#define sleep(a) Sleep((a)*1000)
+#define MY_Sleep(a) Sleep((a)*1000)
 
 /* Define missing access() modes. */
 #define F_OK 0

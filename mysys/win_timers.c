@@ -41,7 +41,7 @@ HANDLE timer_queue= 0;
           expires.
 */
 static void CALLBACK
-timer_callback_function(PVOID timer_data, BOOLEAN timer_or_wait_fired __attribute__((unused)))
+timer_callback_function(PVOID timer_data, BOOLEAN timer_or_wait_fired MY_ATTRIBUTE((unused)))
 {
   my_timer_t *timer= (my_timer_t *)timer_data;
   assert(timer != NULL);
@@ -55,7 +55,7 @@ timer_callback_function(PVOID timer_data, BOOLEAN timer_or_wait_fired __attribut
   @param arg  Unused.
 */
 static void*
-timer_notify_thread_func(void *arg __attribute__((unused)))
+timer_notify_thread_func(void *arg MY_ATTRIBUTE((unused)))
 {
   DWORD timer_state;
   ULONG compl_key;

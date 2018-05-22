@@ -202,7 +202,7 @@ size_t vio_ssl_read(Vio *vio, uchar *buf, size_t size)
       break;
 
     if (vio->ssl_is_nonblocking) {
-      socket_errno = SOCKET_EWOULDBLOCK;
+      //socket_errno = SOCKET_EWOULDBLOCK;
       switch (event) {
         case VIO_IO_EVENT_READ:  DBUG_RETURN(VIO_SOCKET_WANT_READ);
         case VIO_IO_EVENT_WRITE: DBUG_RETURN(VIO_SOCKET_WANT_WRITE);
@@ -261,7 +261,7 @@ size_t vio_ssl_write(Vio *vio, const uchar *buf, size_t size)
       break;
 
     if (vio->ssl_is_nonblocking) {
-      socket_errno = SOCKET_EWOULDBLOCK;
+      //socket_errno = SOCKET_EWOULDBLOCK;
       switch (event) {
         case VIO_IO_EVENT_READ:  DBUG_RETURN(VIO_SOCKET_WANT_READ);
         case VIO_IO_EVENT_WRITE: DBUG_RETURN(VIO_SOCKET_WANT_WRITE);
@@ -412,7 +412,7 @@ static size_t ssl_handshake_loop(Vio *vio, SSL *ssl,
       break;
 
     if (vio->ssl_is_nonblocking) {
-      socket_errno = SOCKET_EWOULDBLOCK;
+      //socket_errno = SOCKET_EWOULDBLOCK;
       switch (event) {
         case VIO_IO_EVENT_READ:
           ret = VIO_SOCKET_WANT_READ;

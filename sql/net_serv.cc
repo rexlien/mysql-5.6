@@ -43,7 +43,9 @@
 #include <violite.h>
 #include <signal.h>
 #include <errno.h>
+#ifndef __WIN__
 #include <sys/uio.h>
+#endif
 #include "probes_mysql.h"
 #include <openssl/ssl.h>
 
@@ -635,10 +637,22 @@ static net_async_status net_write_vector_nonblocking(NET* net, ssize_t *res) {
     DBUG_RETURN(NET_ASYNC_NOT_READY);
   }
 #endif
-
+ 
+  
+#ifdef __WIN__
+  
+  *res = 0;
+   iovec* curVec = vec;
+  for (int i = 0; i < net->async_write_vector_size - net->async_write_vector_current; i++)
+  {
+      *res += ::sendto(net->fd, (const char *)curVec->iov_base,
+              curVec->iov_len, 0, 0, 0);
+      curVec++;
+  }
+#else
   *res = writev(net->fd, vec,
     net->async_write_vector_size - net->async_write_vector_current);
-
+#endif
   if (*res < 0) {
     if (errno == SOCKET_EAGAIN ||
         errno == SOCKET_EWOULDBLOCK) {
@@ -1483,7 +1497,7 @@ end:
   if (net->compress) {
     *complen = net->async_packet_uncompressed_length;
     if (my_uncompress(net, net->buff + net->where_b,
-                      net->async_packet_length, complen)) {
+                      net->async_packet_length, (size_t *)complen)) {
       net->error = 2; // caller will close socket
       net->last_errno = ER_NET_UNCOMPRESS_ERROR;
 #ifdef MYSQL_SERVER

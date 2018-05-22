@@ -66,7 +66,7 @@ size_t vio_read_pipe(Vio *vio, uchar *buf, size_t count)
   }
   /* Read operation is pending completion asynchronously? */
   else if (GetLastError() == ERROR_IO_PENDING)
-    ret= wait_overlapped_result(vio, vio->read_timeout);
+    ret= wait_overlapped_result(vio, vio->read_timeout.value_ms_);
 
   DBUG_RETURN(ret);
 }
@@ -86,7 +86,7 @@ size_t vio_write_pipe(Vio *vio, const uchar *buf, size_t count)
   }
   /* Write operation is pending completion asynchronously? */
   else if (GetLastError() == ERROR_IO_PENDING)
-    ret= wait_overlapped_result(vio, vio->write_timeout);
+    ret= wait_overlapped_result(vio, vio->write_timeout.value_ms_);
 
   DBUG_RETURN(ret);
 }

@@ -87,7 +87,7 @@ my_bool my_compress(NET *net, uchar *packet,
 
 #ifdef HAVE_ZSTD_COMPRESS
 uchar *zstd_compress_alloc(NET *net, const uchar *packet, size_t *len,
-                         size_t *complen, uint level __attribute__((unused)))
+                         size_t *complen, uint level MY_ATTRIBUTE((unused)))
 {
   DBUG_ASSERT(net != NULL);
   if (!net->cctx) {

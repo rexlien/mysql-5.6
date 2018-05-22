@@ -16,7 +16,7 @@
 /*****************************************************************************
 ** The following is a simple implementation of posix conditions
 *****************************************************************************/
-#if defined(_WIN32)
+#if false//defined(_WIN32)
 
 #undef SAFE_MUTEX			/* Avoid safe_mutex redefinitions */
 #include "mysys_priv.h"

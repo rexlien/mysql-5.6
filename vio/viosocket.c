@@ -298,20 +298,20 @@ int vio_socket_timeout(Vio *vio,
 
       Assert that the VIO timeout is either positive or set to infinite.
     */
-    DBUG_ASSERT(which || vio->read_timeout);
-    DBUG_ASSERT(!which || vio->write_timeout);
+    DBUG_ASSERT(which || vio->read_timeout.value_ms_);
+    DBUG_ASSERT(!which || vio->write_timeout.value_ms_);
 
     if (which)
     {
       optname= SO_SNDTIMEO;
-      if (vio->write_timeout > 0)
-        timeout= vio->write_timeout;
+      if (vio->write_timeout.value_ms_ > 0)
+        timeout= vio->write_timeout.value_ms_;
     }
     else
     {
       optname= SO_RCVTIMEO;
-      if (vio->read_timeout > 0)
-        timeout= vio->read_timeout;
+      if (vio->read_timeout.value_ms_ > 0)
+        timeout= vio->read_timeout.value_ms_;
     }
 
     ret= mysql_socket_setsockopt(vio->mysql_socket, SOL_SOCKET, optname,

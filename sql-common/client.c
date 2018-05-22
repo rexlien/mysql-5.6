@@ -59,7 +59,7 @@ my_bool	net_flush(NET *net);
 
 #include <my_sys.h>
 #include <errno.h>
-#include <sys/socket.h>
+//#include <sys/socket.h>
 #include "my_default.h"
 #include <mysys_err.h>
 #include <m_string.h>
@@ -188,7 +188,7 @@ static DWORD get_win32_connect_timeout(MYSQL *mysql)
     milliseconds. Hence, check for a possible overflow. In case
     of overflow, set to no timeout.
   */
-  timeout_sec= mysql->options.connect_timeout;
+  timeout_sec= mysql->options.connect_timeout.value_ms_;
 
   if (!timeout_sec || (timeout_sec > INT_MAX/1000))
     timeout_ms= INFINITE;

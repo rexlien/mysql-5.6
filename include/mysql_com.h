@@ -67,6 +67,23 @@
 #define MYSQL_SERVICENAME "MySQL"
 #endif /* __WIN__ */
 
+#include <folly/portability/IOVec.h>
+/*
+#ifndef _WIN32
+#include <limits.h>
+#include <sys/uio.h>
+#else
+#include <stdlib.h>
+
+#define UIO_MAXIOV 16
+#define IOV_MAX UIO_MAXIOV
+
+struct iovec {
+    void* iov_base;
+    size_t iov_len;
+};
+#endif
+*/
 /*
   You should add new commands to the end of this list, otherwise old
   servers won't be able to handle them as 'unsupported'.
