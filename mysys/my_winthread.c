@@ -63,92 +63,92 @@ static unsigned int __stdcall pthread_start(void *p)
 }
 
 
-int pthread_create(pthread_t *thread_id, const pthread_attr_t *attr,
-                   pthread_handler func, void *param)
-{
-  uintptr_t handle;
-  struct thread_start_parameter *par;
-  unsigned int  stack_size;
-  int error_no;
-  DBUG_ENTER("pthread_create");
-
-  par= (struct thread_start_parameter *)malloc(sizeof(*par));
-  if (!par)
-   goto error_return;
-
-  par->func= func;
-  par->arg= param;
-  stack_size= attr?attr->dwStackSize:0;
-
-  handle= _beginthreadex(NULL, stack_size , pthread_start, par, 0, thread_id);
-  if (!handle)
-    goto error_return;
-  DBUG_PRINT("info", ("thread id=%u",*thread_id));
-
-  /* Do not need thread handle, close it */
-  CloseHandle((HANDLE)handle);
-  DBUG_RETURN(0);
-
-error_return:
-  error_no= errno;
-  DBUG_PRINT("error",
-         ("Can't create thread to handle request (error %d)",error_no));
-  DBUG_RETURN(error_no);
-}
-
-
-void pthread_exit(void *a)
-{
-  _endthreadex(0);
-}
-
-int pthread_join(pthread_t thread, void **value_ptr)
-{
-  DWORD  ret;
-  HANDLE handle;
-
-  handle= OpenThread(SYNCHRONIZE, FALSE, thread);
-  if (!handle)
-  {
-    errno= EINVAL;
-    goto error_return;
-  }
-
-  ret= WaitForSingleObject(handle, INFINITE);
-
-  if(ret != WAIT_OBJECT_0)
-  {
-    errno= EINVAL;
-    goto error_return;
-  }
-
-  CloseHandle(handle);
-  return 0;
-
-error_return:
-  if(handle)
-    CloseHandle(handle);
-  return -1;
-}
-
-int pthread_cancel(pthread_t thread)
-{
-
-  HANDLE handle= 0;
-  BOOL ok= FALSE;
-
-  handle= OpenThread(THREAD_TERMINATE, FALSE, thread);
-  if (handle)
-  {
-     ok= TerminateThread(handle,0);
-     CloseHandle(handle);
-  }
-  if (ok)
-    return 0;
-
-  errno= EINVAL;
-  return -1;
-}
+//int pthread_create(pthread_t *thread_id, const pthread_attr_t *attr,
+//                   pthread_handler func, void *param)
+//{
+//  uintptr_t handle;
+//  struct thread_start_parameter *par;
+//  unsigned int  stack_size;
+//  int error_no;
+//  DBUG_ENTER("pthread_create");
+//
+//  par= (struct thread_start_parameter *)malloc(sizeof(*par));
+//  if (!par)
+//   goto error_return;
+//
+//  par->func= func;
+//  par->arg= param;
+//  stack_size= attr?attr->dwStackSize:0;
+//
+//  handle= _beginthreadex(NULL, stack_size , pthread_start, par, 0, thread_id);
+//  if (!handle)
+//    goto error_return;
+//  DBUG_PRINT("info", ("thread id=%u",*thread_id));
+//
+//  /* Do not need thread handle, close it */
+//  CloseHandle((HANDLE)handle);
+//  DBUG_RETURN(0);
+//
+//error_return:
+//  error_no= errno;
+//  DBUG_PRINT("error",
+//         ("Can't create thread to handle request (error %d)",error_no));
+//  DBUG_RETURN(error_no);
+//}
+//
+//
+//void pthread_exit(void *a)
+//{
+//  _endthreadex(0);
+//}
+//
+//int pthread_join(pthread_t thread, void **value_ptr)
+//{
+//  DWORD  ret;
+//  HANDLE handle;
+//
+//  handle= OpenThread(SYNCHRONIZE, FALSE, thread);
+//  if (!handle)
+//  {
+//    errno= EINVAL;
+//    goto error_return;
+//  }
+//
+//  ret= WaitForSingleObject(handle, INFINITE);
+//
+//  if(ret != WAIT_OBJECT_0)
+//  {
+//    errno= EINVAL;
+//    goto error_return;
+//  }
+//
+//  CloseHandle(handle);
+//  return 0;
+//
+//error_return:
+//  if(handle)
+//    CloseHandle(handle);
+//  return -1;
+//}
+//
+//int pthread_cancel(pthread_t thread)
+//{
+//
+//  HANDLE handle= 0;
+//  BOOL ok= FALSE;
+//
+//  handle= OpenThread(THREAD_TERMINATE, FALSE, thread);
+//  if (handle)
+//  {
+//     ok= TerminateThread(handle,0);
+//     CloseHandle(handle);
+//  }
+//  if (ok)
+//    return 0;
+//
+//  errno= EINVAL;
+//  return -1;
+//}
 
 /*
  One time initialization. For simplicity, we assume initializer thread
