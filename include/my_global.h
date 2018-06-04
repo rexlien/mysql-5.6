@@ -136,6 +136,8 @@
 #define HAVE_NAMED_PIPE 1
 #define shared_memory_buffer_length 16000
 #define default_shared_memory_base_name "MYSQL"
+#else
+  #define MY_Sleep(a) sleep(a)
 #endif /* _WIN32*/
 
 
