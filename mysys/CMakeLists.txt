@@ -72,7 +72,7 @@ ENDIF()
 
 ADD_CONVENIENCE_LIBRARY(mysys ${MYSYS_SOURCES})
 TARGET_LINK_LIBRARIES(mysys dbug strings ${ZLIB_LIBRARY} ${ZSTD_LIBRARY}
- ${LIBNSL} ${LIBM} ${LIBRT} ${LIBEXECINFO})
+ ${LIBNSL} ${LIBM} ${LIBRT} ${LIBEXECINFO} pthread)
 DTRACE_INSTRUMENT(mysys)
 
 # Need explicit pthread for gcc -fsanitize=address

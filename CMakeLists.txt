@@ -430,6 +430,12 @@ ENDIF()
 IF(WIN32)
   SET(DEFAULT_MYSQL_HOME "C:/Program Files/MySQL/MySQL Server ${MYSQL_BASE_VERSION}" )
   SET(SHAREDIR share)
+  add_library(pthread SHARED IMPORTED GLOBAL)
+  set_property(TARGET pthread APPEND PROPERTY IMPORTED_CONFIGURATIONS Debug)
+  set_target_properties(pthread PROPERTIES
+        IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/../build/msvc/pthread/dll/x64/pthreadVC2.dll
+        IMPORTED_IMPLIB ${CMAKE_CURRENT_SOURCE_DIR}/../build/msvc/pthread/lib/x64/pthreadVC2.lib)
+  set(CMAKE_MSVCIDE_RUN_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../build/msvc/pthread/dll/x64/)  
 ELSE()
   IF (NOT DEFAULT_MYSQL_HOME)
     SET(DEFAULT_MYSQL_HOME ${CMAKE_INSTALL_PREFIX})
